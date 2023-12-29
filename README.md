@@ -50,7 +50,37 @@ The `BanditPolicy` as an early stopping policy has notable advantages:
 
 In summary, this pipeline effectively integrates data processing, an efficiently tuned Logistic Regression model using HyperDrive, and leverages Azure ML's capabilities for optimizing both hyperparameter tuning and computational resource utilization.
 ## AutoML
-AutoML, or Automated Machine Learning, in this configuration, dynamically selects the most appropriate classification model and optimizes its hyperparameters tailored for the given dataset ds. The process involves evaluating a variety of different classification algorithms, such as decision trees, support vector machines, ensemble methods, and more, based on the primary metric of accuracy. AutoML's approach automates the process of model selection and hyperparameter tuning, efficiently exploring a wide range of models and configurations to determine the one that performs best in predicting the target variable 'y' from the dataset, with validation through 2-fold cross-validation. The specific model and hyperparameters chosen are determined by AutoML's internal algorithms, aiming to maximize the accuracy metric within the allocated 30 minutes of experiment runtime.
+
+In this AutoML configuration, the process dynamically evaluates and selects the most suitable classification model, optimizing its hyperparameters for the given dataset `ds`. This evaluation includes a range of classification algorithms like decision trees, support vector machines, and ensemble methods. The focus is on maximizing the primary metric of accuracy. AutoML's approach automates both model selection and hyperparameter tuning, exploring various models and configurations to effectively predict the target variable 'y' from the dataset. The validation process involves 2-fold cross-validation, and the algorithm aims to optimize accuracy within a 30-minute experiment runtime.
+
+### Winning Model Configuration
+The best-performing model from the AutoML run is configured as follows:
+
+- **Class Name**: XGBoostClassifier
+- **Module**: automl.client.core.common.model_wrappers
+- **Parameters**:
+  - Booster: gbtree
+  - Colsample_bylevel: 0.6
+  - Colsample_bytree: 1
+  - Eta: 0.001
+  - Gamma: 0
+  - Max_depth: 6
+  - Max_leaves: 15
+  - N_estimators: 800
+  - Objective: reg:logistic
+  - Reg_alpha: 0
+  - Reg_lambda: 2.5
+  - Subsample: 1
+  - Tree_method: auto
+- **Specification Class**: sklearn
+
+### Feature Engineering Insights
+AutoML also performed feature engineering, including feature ranking, to enhance the model's performance. The image below illustrates the top 6 features identified as most influential in the model's predictions.
+
+![image](https://github.com/zuhaalfaraj/Optimizing_a_Pipeline_in_Azure/assets/28821479/65224ead-1771-42cb-a385-8be55bd4331a)
+
+
+
 ## Pipeline comparison
 
 #### Detailed Comparison of HyperDrive and AutoML Models
